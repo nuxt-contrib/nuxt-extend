@@ -44,7 +44,7 @@ Use `extends` key in `nuxt.config`:
 import { resolveConfig } from '@nuxt/theme'
 
 export default resolveConfig({
-  extends: '@nuxt/docs-theme'
+  extends: '@nuxt/docs-theme',
 })
 ```
 
@@ -58,8 +58,8 @@ export default resolveConfig({
 import { resolveConfig } from '@nuxt/theme'
 
 export default resolveConfig({
-  name: 'myTheme'
-  rootDir: __direname
+  rootDir: __direname,
+  name: 'myTheme',
 }
 ```
 
