@@ -11,6 +11,7 @@
   ],
   "scripts": {
     "build": "siroc build",
+    "dev": "nuxt test/fixture/app -c nuxt.config.cjs.js",
     "lint": "eslint --ext .ts src",
     "prepublish": "yarn build",
     "release": "yarn test && yarn build && standard-version && git push --follow-tags && npm publish",
@@ -22,12 +23,15 @@
     "jiti": "^0.1.12"
   },
   "devDependencies": {
+    "@nuxt/components": "^1.1.1",
     "@nuxt/types": "^2.14.7",
+    "@nuxt/typescript-runtime": "^2.0.0",
     "@nuxtjs/eslint-config-typescript": "latest",
     "@types/jest": "latest",
     "@types/node": "latest",
     "eslint": "latest",
     "jest": "latest",
+    "nuxt": "^2.14.7",
     "siroc": "^0.4.0",
     "standard-version": "latest",
     "ts-jest": "latest",

@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+Object {
+  "_level": Object {},
+  "alias": Object {
+    "@@baseTheme": "{test}/fixture/themes/base",
+    "@@baseThemeEx": "{test}/fixture/themes/red",
+    "@baseTheme": "{test}/fixture/themes/base",
+    "@baseThemeEx": "{test}/fixture/themes/base",
+    "~baseTheme": "{test}/fixture/themes/base",
+    "~baseThemeEx": "{test}/fixture/themes/base",
+    "~~baseTheme": "{test}/fixture/themes/base",
+    "~~baseThemeEx": "{test}/fixture/themes/red",
+  },
+  "extends": "../themes/red/nuxt.config",
+  "hooks": Object {},
+  "name": "myApp",
+  "publicRuntimeConfig": Object {
+    "color": "red",
+  },
+  "rootDir": "{test}/fixture/app",
+  "srcDir": "{test}/fixture/themes/base",
+}
+`;

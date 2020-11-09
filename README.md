@@ -48,8 +48,6 @@ export default resolveConfig({
 })
 ```
 
-**Note:** While it is not necessary, it is recommended to also follow [Theme Author](#theme-author) section for your project so it is reusable for others.
-
 ### Theme Author
 
 - Update `nuxt.config` and ensure required `rootDir` and `name` properties are provided
@@ -62,6 +60,8 @@ export default resolveConfig({
   name: 'myTheme',
 }
 ```
+
+**Note:** If you are extending another theme, `rootDir` should be ONLY provided if you want to also extend project.
 
 - Instead of using `~/` or `@/` aliases, use `~myTheme` or `@myTheme`
 
