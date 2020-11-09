@@ -2,7 +2,7 @@
 
 exports[`matches snapshot 1`] = `
 Object {
-  "_level": Object {},
+  "_level": 0,
   "alias": Object {
     "@@baseTheme": "{test}/fixture/themes/base",
     "@@baseThemeEx": "{test}/fixture/themes/red",
@@ -13,6 +13,21 @@ Object {
     "~~baseTheme": "{test}/fixture/themes/base",
     "~~baseThemeEx": "{test}/fixture/themes/red",
   },
+  "components": Array [
+    Object {
+      "level": 0,
+      "path": "{test}/fixture/app/components",
+    },
+    Object {
+      "level": 1,
+      "path": "{test}/fixture/themes/red/components",
+    },
+    Object {
+      "global": true,
+      "level": 2,
+      "path": "{test}/fixture/themes/base/components",
+    },
+  ],
   "extends": "../themes/red/nuxt.config",
   "hooks": Object {},
   "name": "myApp",

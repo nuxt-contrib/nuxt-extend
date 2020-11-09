@@ -9,11 +9,15 @@ const scrub = (input) => {
     return input.map(i => scrub(i))
   }
 
-  const res = {}
-  for (const key in input) {
-    res[key] = scrub(input[key])
+  if (typeof input === 'object') {
+    const res = {}
+    for (const key in input) {
+      res[key] = scrub(input[key])
+    }
+    return res
   }
-  return res
+
+  return input
 }
 
 it('matches snapshot', () => {

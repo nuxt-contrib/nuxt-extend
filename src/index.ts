@@ -5,7 +5,7 @@ import type { NuxtConfig } from '@nuxt/types'
 
 declare module '@nuxt/types' {
   interface NuxtConfig {
-    _level?: Number
+    _level?: number
     hooks?: configHooksT
     name?: string
     extends?: string
@@ -13,7 +13,7 @@ declare module '@nuxt/types' {
   }
 }
 
-export function resolveConfig (config: string | NuxtConfig, from: string = process.cwd()): NuxtConfig {
+export function resolveConfig (config: string | NuxtConfig, from: string = process.cwd(), level = 0): NuxtConfig {
   if (typeof config === 'string') {
     const jiti = require('jiti')(from)
     const name = config
@@ -33,8 +33,10 @@ export function resolveConfig (config: string | NuxtConfig, from: string = proce
     config.rootDir = from
   }
 
+  config._level = level
+
   if (config.extends) {
-    const _resolvedExtends = resolveConfig(config.extends, config.rootDir)
+    const _resolvedExtends = resolveConfig(config.extends, config.rootDir, level + 1)
     config = extendConfig(config, _resolvedExtends)
   }
 
@@ -52,10 +54,6 @@ export function extendConfig (target: NuxtConfig, base: NuxtConfig): NuxtConfig 
   if (!base.srcDir) {
     base.srcDir = base.rootDir
   }
-
-  // Set _level
-  target._level = target._level || 0
-  base._level = target.level + 1
 
   // Ensure there is no name conflict
   if (target.alias && target.alias['~' + base.name]) {
@@ -78,28 +76,28 @@ export function extendConfig (target: NuxtConfig, base: NuxtConfig): NuxtConfig 
   // Merge components prop
   if (base.components || target.components) {
     override.components = [
-      ...normalizeComponents(base.components, { level: base._level }),
-      ...normalizeComponents(target.components, { level: target._level })
+      ...normalizeComponents(target.components, { level: target._level }),
+      ...normalizeComponents(base.components, { level: base._level })
     ]
   }
 
   // Merge with defu
-  return defu.arrayFn(override, target, base)
+  return { ...defu.arrayFn(target, base), ...override }
 }
 
-function normalizeComponents (components: NuxtConfig['components'], dirOverride = {}) {
-  if (typeof components === 'boolean') {
+function normalizeComponents (components: NuxtConfig['components'], defaults = {}) {
+  if (typeof components === 'boolean' || !components) {
     components = []
   }
 
   if (!Array.isArray(components)) {
     // TODO: Deprecate components: { dirs } support from @nuxt/components
-    throw new TypeError('`components` should be an array')
+    throw new TypeError('`components` should be an array: ' + typeof components)
   }
 
   components = components.map(dir => ({
-    ...(typeof dir === 'string' ? { dir } : dir),
-    ...dirOverride
+    ...defaults,
+    ...(typeof dir === 'string' ? { path: dir } : dir)
   }))
 
   return components
