@@ -46,7 +46,7 @@ export function extendConfig (base: NuxtConfig | string, target: NuxtConfig): Nu
   }
 
   // Merge with defu
-  return defu(override, target, base)
+  return defu.arrayFn(override, target, base)
 }
 
 export function resolveConfig (config: string | NuxtConfig): NuxtConfig {
