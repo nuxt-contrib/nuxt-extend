@@ -1,6 +1,10 @@
 # `@nuxt/theme`
 
-Magically theme/extends support to Nuxt 2 projects!
+[![npm version][npm-v-src]][npm-v-href]
+[![npm downloads][npm-d-src]][npm-d-href]
+[![ci][ci-src]][ci-href]
+
+Add theme/extends support to Nuxt 2 projects!
 
 ## Features
 
@@ -57,9 +61,20 @@ export default resolveConfig({
   name: 'myTheme'
   rootDir: __direname
 }
+```
 
 - Instead of using `~/` or `@/` aliases, use `~myTheme` or `@myTheme`
 
 ## License
 
-MIT
+MIT. Made with 💖
+
+<!-- Refs -->
+[npm-v-src]: https://img.shields.io/npm/v/@nuxt/theme?style=flat-square
+[npm-v-href]: https://npmjs.com/package/@nuxt/theme
+
+[npm-d-src]: https://img.shields.io/npm/dm/@nuxt/theme?style=flat-square
+[npm-d-href]: https://npmjs.com/package/@nuxt/theme
+
+[ci-src]: https://img.shields.io/github/workflow/status/nuxt/theme/ci/master?style=flat-square
+[ci-href]: https://github.com/nuxt/theme/actions?query=workflow%3Aci
