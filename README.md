@@ -9,7 +9,7 @@ Add theme/extends support to Nuxt 2 projects!
 ## Features
 
 - Forward compatible with nuxt3 multi app
-- Support neseted `extends`
+- Support nested `extends`
 - Smartly merge config and hooks
 - Allow theme development to be like a normal nuxt project
 
