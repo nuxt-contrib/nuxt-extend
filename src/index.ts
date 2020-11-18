@@ -16,19 +16,18 @@ declare module '@nuxt/types' {
 export function resolveConfig (config: string | NuxtConfig, from: string = process.cwd(), level = 0): NuxtConfig {
   if (typeof config === 'string') {
     const jiti = require('jiti')(from)
-    const name = config
     const nuxtConfigFile = jiti.resolve(config)
     config = jiti(nuxtConfigFile) as NuxtConfig
+    config._file = nuxtConfigFile
 
     if (!config.rootDir) {
       config.rootDir = dirname(nuxtConfigFile)
     }
-
-    if (!config.name) {
-      config.name = name
-    }
   }
 
+  if (typeof config === 'function') {
+    throw new TypeError('@nuxt/theme does not support Nuxt config as function')
+  }
   if (!config.rootDir) {
     config.rootDir = from
   }
@@ -40,16 +39,19 @@ export function resolveConfig (config: string | NuxtConfig, from: string = proce
     config = extendConfig(config, _resolvedExtends)
   }
 
+  // delete tempory _file for error DX
+  delete config._file
+
   return config
 }
 
 export function extendConfig (target: NuxtConfig, base: NuxtConfig): NuxtConfig {
-  // Ensure base has require fileds
+  // Ensure base has required fields
   if (!base.name) {
-    throw new Error('Base config is missing `name` property')
+    throw new Error('Theme config is missing the `name` property' + (base._file ? `in ${base._file}` : ''))
   }
   if (!base.rootDir) {
-    throw new Error('Base config is missing `rootDir` property')
+    throw new Error('Theme config is missing the `rootDir` property')
   }
   if (!base.srcDir) {
     base.srcDir = base.rootDir

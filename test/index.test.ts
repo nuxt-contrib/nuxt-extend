@@ -1,3 +1,5 @@
+import { resolve } from 'path'
+import { resolveConfig } from '../src'
 import config from './fixture/app/nuxt.config'
 
 const scrub = (input) => {
@@ -19,6 +21,11 @@ const scrub = (input) => {
 
   return input
 }
+
+it('fails on config being a function', () => {
+  const config = () => ({})
+  expect(() => resolveConfig(config)).toThrow('@nuxt/theme does not support Nuxt config as function')
+})
 
 it('matches snapshot', () => {
   expect(scrub(config)).toMatchSnapshot()

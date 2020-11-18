@@ -8,7 +8,7 @@ Add theme/extends support to Nuxt 2 projects!
 
 ## Features
 
-- Forward compatible with nuxt3 multi app
+- Forward compatible with Nuxt 3 multi Apps
 - Support nested `extends`
 - Smartly merge config and hooks
 - Allow theme development to be like a normal nuxt project
@@ -33,6 +33,7 @@ Update `nuxt.config` file:
 import { resolveConfig } from '@nuxt/theme'
 
 export default resolveConfig({
+  // Your actual Nuxt configuration
 })
 ```
 
@@ -50,20 +51,20 @@ export default resolveConfig({
 
 ### Theme Author
 
-- Update `nuxt.config` and ensure required `rootDir` and `name` properties are provided
+1. Update `nuxt.config` and ensure required `rootDir` and `name` properties are provided
 
 ```js
 import { resolveConfig } from '@nuxt/theme'
 
 export default resolveConfig({
-  rootDir: __direname,
+  rootDir: __dirname,
   name: 'myTheme',
 }
 ```
 
 **Note:** If you are extending another theme, `rootDir` should be ONLY provided if you want to also extend project.
 
-- Instead of using `~/` or `@/` aliases, use `~myTheme` or `@myTheme`
+2. Instead of using `~/` or `@/` aliases, use `~myTheme` or `@myTheme`
 
 ## License
 
