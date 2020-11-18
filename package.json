@@ -18,7 +18,7 @@
     "test": "yarn lint && yarn jest"
   },
   "dependencies": {
-    "defu": "^3.2.0",
+    "defu": "^3.2.2",
     "hookable": "^4.3.1",
     "jiti": "^0.1.12"
   },
@@ -32,7 +32,7 @@
     "eslint": "latest",
     "jest": "latest",
     "nuxt": "^2.14.7",
-    "siroc": "^0.4.0",
+    "siroc": "^0.4.1",
     "standard-version": "latest",
     "ts-jest": "latest",
     "typescript": "latest"
