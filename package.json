@@ -1,8 +1,8 @@
 {
-  "name": "@nuxt/theme",
+  "name": "nuxt-extend",
   "version": "0.0.2",
   "description": "",
-  "repository": "nuxt/theme",
+  "repository": "nuxt-community/nuxt-extend",
   "license": "MIT",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -23,16 +23,16 @@
     "jiti": "^0.1.12"
   },
   "devDependencies": {
-    "@nuxt/components": "^1.1.1",
-    "@nuxt/types": "^2.14.7",
-    "@nuxt/typescript-runtime": "^2.0.0",
+    "@nuxt/components": "latest",
+    "@nuxt/types": "latest",
+    "@nuxt/typescript-runtime": "latest",
     "@nuxtjs/eslint-config-typescript": "latest",
     "@types/jest": "latest",
     "@types/node": "latest",
     "eslint": "latest",
     "jest": "latest",
-    "nuxt": "^2.14.7",
-    "siroc": "^0.4.1",
+    "nuxt": "latest",
+    "siroc": "latest",
     "standard-version": "latest",
     "ts-jest": "latest",
     "typescript": "latest"

@@ -24,7 +24,8 @@ const scrub = (input) => {
 
 it('fails on config being a function', () => {
   const config = () => ({})
-  expect(() => resolveConfig(config)).toThrow('@nuxt/theme does not support Nuxt config as function')
+  expect(() => resolveConfig(config))
+    .toThrow('extending is not possible with nuxt config as a function')
 })
 
 it('matches snapshot', () => {

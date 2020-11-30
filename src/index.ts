@@ -1,6 +1,7 @@
 import { dirname } from 'path'
 import Hookable, { configHooksT } from 'hookable'
 import defu from 'defu'
+import jiti from 'jiti'
 import type { NuxtConfig } from '@nuxt/types'
 
 declare module '@nuxt/types' {
@@ -15,9 +16,9 @@ declare module '@nuxt/types' {
 
 export function resolveConfig (config: string | NuxtConfig, from: string = process.cwd(), level = 0): NuxtConfig {
   if (typeof config === 'string') {
-    const jiti = require('jiti')(from)
-    const nuxtConfigFile = jiti.resolve(config)
-    config = jiti(nuxtConfigFile) as NuxtConfig
+    const _require = jiti(from)
+    const nuxtConfigFile = _require.resolve(config)
+    config = _require(nuxtConfigFile) as NuxtConfig
     config._file = nuxtConfigFile
 
     if (!config.rootDir) {
@@ -26,7 +27,7 @@ export function resolveConfig (config: string | NuxtConfig, from: string = proce
   }
 
   if (typeof config === 'function') {
-    throw new TypeError('@nuxt/theme does not support Nuxt config as function')
+    throw new TypeError('extending is not possible with nuxt config as a function')
   }
   if (!config.rootDir) {
     config.rootDir = from
@@ -48,10 +49,10 @@ export function resolveConfig (config: string | NuxtConfig, from: string = proce
 export function extendConfig (target: NuxtConfig, base: NuxtConfig): NuxtConfig {
   // Ensure base has required fields
   if (!base.name) {
-    throw new Error('Theme config is missing the `name` property' + (base._file ? `in ${base._file}` : ''))
+    throw new Error('Config is missing the `name` property' + (base._file ? `in ${base._file}` : ''))
   }
   if (!base.rootDir) {
-    throw new Error('Theme config is missing the `rootDir` property')
+    throw new Error('Config is missing the `rootDir` property')
   }
   if (!base.srcDir) {
     base.srcDir = base.rootDir
@@ -59,7 +60,7 @@ export function extendConfig (target: NuxtConfig, base: NuxtConfig): NuxtConfig 
 
   // Ensure there is no name conflict
   if (target.alias && target.alias['~' + base.name]) {
-    throw new Error('Theme name conflict: ' + base.name)
+    throw new Error('Name conflict: ' + base.name)
   }
 
   // Assign aliases for base
