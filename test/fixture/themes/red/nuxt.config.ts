@@ -1,15 +1,11 @@
-import { resolve } from 'path'
+import { nuxtConfig } from '../../../../src/index'
 
-export default {
-  name: 'baseThemeEx',
-  rootDir: __dirname,
+export default nuxtConfig({
+  name: 'RedTheme',
   extends: '../base/nuxt.config',
-
-  components: [
-    resolve(__dirname, 'components')
-  ],
+  rootDir: __dirname,
 
   publicRuntimeConfig: {
     color: 'red'
   }
-}
+})

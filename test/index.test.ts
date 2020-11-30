@@ -1,5 +1,4 @@
-import { resolve } from 'path'
-import { resolveConfig } from '../src'
+import { nuxtConfig } from '../src'
 import config from './fixture/app/nuxt.config'
 
 const scrub = (input) => {
@@ -24,7 +23,7 @@ const scrub = (input) => {
 
 it('fails on config being a function', () => {
   const config = () => ({})
-  expect(() => resolveConfig(config))
+  expect(() => nuxtConfig(config))
     .toThrow('extending is not possible with nuxt config as a function')
 })
 
