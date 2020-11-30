@@ -4,17 +4,21 @@
 [![npm downloads][npm-d-src]][npm-d-href]
 [![ci][ci-src]][ci-href]
 
-Add config extending support to Nuxt 2 projects!
+This utility allows extending a nuxt project based on another one by smartly merging `nuxt.config` files.
 
-## Features
+It can be useful if:
+- You want to share a base config across mono-repo projects
+- You want to create a multi-variant (like `mobile`/`desktop`) app
+- You want to create a reusable nuxt theme (like one for docs)
 
-- Support nested `extends`
-- Smartly merge config and hooks
-- Allow theme development to be like a normal nuxt project
+**Note:** Proper Multi-App ([rfc](https://github.com/nuxt/rfcs/issues/30)) is comming with nuxt3 which also
+allows extending auto scanned directories like `pages/` and `store/` and merging them.
+
+## Mobile/Desktop Demo
+
+See [this example](./example)
 
 ## Usage
-
-### Common Setup
 
 Install `nuxt-extend` as a dependency:
 
@@ -29,10 +33,10 @@ npm i nuxt-extend
 Update `nuxt.config` file:
 
 ```js
-import { resolveConfig } from 'nuxt-extend'
+import { nuxtConfig } from 'nuxt-extend'
 
-export default resolveConfig({
-  // Your actual Nuxt configuration
+export default nuxtConfig({
+  /* your actual nuxt configuration */
 })
 ```
 
@@ -41,29 +45,29 @@ export default resolveConfig({
 Use `extends` key in `nuxt.config`:
 
 ```js
-import { resolveConfig } from 'nuxt-extend'
+import { nuxtConfig } from 'nuxt-extend'
 
-export default resolveConfig({
-  extends: '@nuxt/docs-theme',
+export default nuxtConfig({
+  extends: '<path to base or npm package>',
 })
 ```
 
-### Child
+### Base
 
-1. Update `nuxt.config` and ensure required `rootDir` and `name` properties are provided
+- Update `nuxt.config` and ensure required `rootDir` and `name` properties are provided
 
 ```js
-import { resolveConfig } from 'nuxt-extend'
+import { nuxtConfig } from 'nuxt-extend'
 
-export default resolveConfig({
+export default nuxtConfig({
   rootDir: __dirname,
   name: 'myTheme',
 }
 ```
 
-**Note:** If you are extending another theme, `rootDir` should be ONLY provided if you want to also extend project.
+**Note:** If you are extending recusively, `rootDir` should be ONLY provided one one level that implements actual `pages/` and `store/`.
 
-2. Instead of using `~/` or `@/` aliases, use `~myTheme` or `@myTheme`
+- Instead of using `~/` or `@/` aliases, use `~myTheme` or `@myTheme`
 
 ## License
 

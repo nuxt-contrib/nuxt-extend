@@ -13,6 +13,7 @@
     "build": "siroc build",
     "dev": "nuxt test/fixture/app -c nuxt.config.cjs.js",
     "lint": "eslint --ext .ts src",
+    "prepare": "yarn link && yarn link nuxt-extend",
     "prepublish": "yarn build",
     "release": "yarn test && yarn build && standard-version && git push --follow-tags && npm publish",
     "test": "yarn lint && yarn jest"
