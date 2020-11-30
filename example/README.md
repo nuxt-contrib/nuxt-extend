@@ -13,19 +13,21 @@ to create a multi-variant mobile/desktop nuxt application.
 - Avoid adding mobile/desktop specific modules, plugins and css
   - Instead use [desktop/nuxt.config](./packages/desktop/nuxt.config.js) and [mobile/nuxt.config](./packages/mobile/nuxt.config.js)
 
-## Pages
+## Pages / Layouts
 
-Only top-level `pages/` directory is supported. It is best to always use a named component and implement per-variant.
+Only [base/pages](./packages/base/pages) and [base/layouts](./packages/base/layouts)  directories are supported.
+
+We use named components to implement them per-variant.
 
 ## Store
 
-Only top-level `store/` directory is supported. It is best to write shared logic inside vuex store modules.
+Only [base/store](./packages/base/store) directory is supported.
 
-## Layout
-
-Using named components, it can be implemented with `components/AppLayout.vue` per-variant.
+It is best to write shared logic inside vuex store modules.
 
 ## Styles
 
 It is recommended to use scoped styles. But in case that need to use global styles,
 they can be included in layout component or `nuxt.config` of each variant.
+
+Also for component libraries, you can include their module in each variant.
