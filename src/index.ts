@@ -1,4 +1,5 @@
-import { dirname } from 'path'
+import { resolve, dirname } from 'path'
+import { existsSync, realpathSync } from 'fs'
 import Hookable, { configHooksT } from 'hookable'
 import defu from 'defu'
 import jiti from 'jiti'
@@ -6,7 +7,6 @@ import type { NuxtConfig } from '@nuxt/types'
 
 declare module '@nuxt/types' {
   interface NuxtConfig {
-    _level?: number
     hooks?: configHooksT
     name?: string
     extends?: string
@@ -14,81 +14,81 @@ declare module '@nuxt/types' {
   }
 }
 
-export function resolveConfig (config: string | NuxtConfig, from: string = process.cwd(), level = 0): NuxtConfig {
-  if (typeof config === 'string') {
-    const _require = jiti(from)
-    const nuxtConfigFile = _require.resolve(config)
-    config = _require(nuxtConfigFile) as NuxtConfig
-    config._file = nuxtConfigFile
+export function nuxtConfig (config: NuxtConfig): NuxtConfig {
+  config = resolveConfig(config, 0)
 
-    if (!config.rootDir) {
-      config.rootDir = dirname(nuxtConfigFile)
-    }
-  }
-
-  if (typeof config === 'function') {
-    throw new TypeError('extending is not possible with nuxt config as a function')
-  }
-  if (!config.rootDir) {
-    config.rootDir = from
-  }
-
-  config._level = level
-
-  if (config.extends) {
-    const _resolvedExtends = resolveConfig(config.extends, config.rootDir, level + 1)
-    config = extendConfig(config, _resolvedExtends)
-  }
-
-  // delete tempory _file for error DX
   delete config._file
+  delete config._dir
+  delete config.name
+  delete config.extends
 
   return config
 }
 
-export function extendConfig (target: NuxtConfig, base: NuxtConfig): NuxtConfig {
-  // Ensure base has required fields
-  if (!base.name) {
-    throw new Error('Config is missing the `name` property' + (base._file ? `in ${base._file}` : ''))
-  }
-  if (!base.rootDir) {
-    throw new Error('Config is missing the `rootDir` property')
-  }
-  if (!base.srcDir) {
-    base.srcDir = base.rootDir
+function resolveConfig (config: NuxtConfig, level) {
+  if (typeof config === 'function') {
+    throw new TypeError('extending is not possible with nuxt config as a function')
   }
 
-  // Ensure there is no name conflict
-  if (target.alias && target.alias['~' + base.name]) {
-    throw new Error('Name conflict: ' + base.name)
+  const dir = config.srcDir || config.rootDir || config._dir
+
+  if (dir && config.name) {
+    config.alias = config.alias || {}
+    config.alias[config.name] = dir
   }
 
-  // Assign aliases for base
-  base.alias = base.alias || {}
-  base.alias['~' + base.name] = base.srcDir
-  base.alias['~~' + base.name] = base.rootDir
-  base.alias['@' + base.name] = base.srcDir
-  base.alias['@@' + base.name] = base.rootDir
+  if (dir && config.components === undefined) {
+    config.components = []
+    const componentsDir = resolve(dir, 'components')
+    if (existsSync(componentsDir)) {
+      config.components.push({ path: componentsDir })
+    }
+    const globalComponentsDir = resolve(dir, 'components/global')
+    if (existsSync(globalComponentsDir)) {
+      config.components.push({ path: globalComponentsDir, global: true })
+    }
+  }
 
+  if (config.extends) {
+    const base = loadConfig(config.extends, dir)
+    return mergeConfig(config, resolveConfig(base, level + 1), level)
+  }
+
+  return config
+}
+
+function loadConfig (configFile: string, from: string): NuxtConfig {
+  const _require = jiti(from)
+  configFile = realpathSync(_require.resolve(configFile))
+
+  let config = _require(configFile)
+  config = (config.default || config) as NuxtConfig
+  config._file = configFile
+  config._dir = dirname(configFile)
+
+  return config
+}
+
+function mergeConfig (target: NuxtConfig, base: NuxtConfig, level): NuxtConfig {
   // Custom merges
   const override: NuxtConfig = {}
 
   // Merge hooks
   override.hooks = Hookable.mergeHooks(base.hooks || {}, target.hooks || {})
 
-  // Merge components prop
+  // Merge components
   if (base.components || target.components) {
     override.components = [
-      ...normalizeComponents(target.components, { level: target._level }),
-      ...normalizeComponents(base.components, { level: base._level })
+      ...normalizeComponents(target.components),
+      ...normalizeComponents(base.components, true)
     ]
   }
 
-  // Merge with defu
+  // Mege with defu
   return { ...defu.arrayFn(target, base), ...override }
 }
 
-function normalizeComponents (components: NuxtConfig['components'], defaults = {}) {
+function normalizeComponents (components: NuxtConfig['components'], isBase?: boolean) {
   if (typeof components === 'boolean' || !components) {
     components = []
   }
@@ -99,9 +99,12 @@ function normalizeComponents (components: NuxtConfig['components'], defaults = {
   }
 
   components = components.map(dir => ({
-    ...defaults,
     ...(typeof dir === 'string' ? { path: dir } : dir)
   }))
+
+  for (const component of components) {
+    component.level = (component.level || 0) + (isBase ? 1 : 0)
+  }
 
   return components
 }
