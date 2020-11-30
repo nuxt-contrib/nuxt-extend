@@ -30,7 +30,7 @@ function resolveConfig (config: NuxtConfig, level) {
     throw new TypeError('extending is not possible with nuxt config as a function')
   }
 
-  const dir = config.srcDir || config.rootDir || config._dir
+  const dir = config.srcDir || config.rootDir || config._dir || process.cwd()
 
   if (dir && config.name) {
     config.alias = config.alias || {}
@@ -51,7 +51,7 @@ function resolveConfig (config: NuxtConfig, level) {
 
   if (config.extends) {
     const base = loadConfig(config.extends, dir)
-    return mergeConfig(config, resolveConfig(base, level + 1), level)
+    return mergeConfig(config, resolveConfig(base, level + 1))
   }
 
   return config
@@ -69,7 +69,7 @@ function loadConfig (configFile: string, from: string): NuxtConfig {
   return config
 }
 
-function mergeConfig (target: NuxtConfig, base: NuxtConfig, level): NuxtConfig {
+function mergeConfig (target: NuxtConfig, base: NuxtConfig): NuxtConfig {
   // Custom merges
   const override: NuxtConfig = {}
 
