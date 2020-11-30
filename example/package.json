@@ -4,9 +4,8 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "",
-    "dev:desktop": "nuxt dev packages/mobile",
-    "dev:mobile": "nuxt dev packages/mobile"
+    "dev:desktop": "yarn workspace @app/desktop dev",
+    "dev:mobile": "yarn workspace @app/mobile dev"
   },
   "devDependencies": {
     "nuxt": "^2.14.7"
