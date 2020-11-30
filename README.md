@@ -65,7 +65,7 @@ export default nuxtConfig({
 }
 ```
 
-**Note:** If you are extending recusively, `rootDir` should be ONLY provided one one level that implements actual `pages/` and `store/`.
+**Note:** If you are extending recusively, `srcDir` should be ONLY provided one one level that implements actual `pages/` and `store/` (which is usually the base).
 
 - Instead of using `~/` or `@/` aliases, use `~myTheme` or `@myTheme`
 
