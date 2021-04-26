@@ -21,7 +21,7 @@
   "dependencies": {
     "defu": "^3.2.2",
     "hookable": "^4.3.1",
-    "jiti": "^0.1.17"
+    "jiti": "^1.9.1"
   },
   "devDependencies": {
     "@nuxt/components": "latest",
