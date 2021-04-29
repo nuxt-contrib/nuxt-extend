@@ -106,5 +106,5 @@ function normalizeComponents (components: NuxtConfig['components'], isBase?: boo
     component.level = (component.level || 0) + (isBase ? 1 : 0)
   }
 
-  return components
+  return componentsArr
 }
