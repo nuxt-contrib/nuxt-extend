@@ -4,7 +4,14 @@
   "description": "",
   "repository": "nuxt-community/nuxt-extend",
   "license": "MIT",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
   "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "files": [
     "dist"
@@ -19,7 +26,7 @@
     "test": "yarn lint && yarn jest"
   },
   "dependencies": {
-    "defu": "^3.2.2",
+    "defu": "^4.0.1",
     "hookable": "^4.4.1",
     "jiti": "^1.9.1"
   },

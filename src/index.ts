@@ -98,11 +98,11 @@ function normalizeComponents (components: NuxtConfig['components'], isBase?: boo
     throw new TypeError('`components` should be an array: ' + typeof components)
   }
 
-  components = components.map(dir => ({
+  const componentsArr = components.map(dir => ({
     ...(typeof dir === 'string' ? { path: dir } : dir)
   }))
 
-  for (const component of components) {
+  for (const component of componentsArr) {
     component.level = (component.level || 0) + (isBase ? 1 : 0)
   }
 
