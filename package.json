@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "defu": "^4.0.1",
-    "hookable": "^4.4.1",
+    "hookable": "^5.0.0",
     "jiti": "^1.9.1"
   },
   "devDependencies": {
