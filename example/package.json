@@ -10,6 +10,6 @@
     "build:mobile": "yarn workspace @app/mobile dev"
   },
   "devDependencies": {
-    "nuxt": "^2.14.7"
+    "nuxt": "^3.11.1"
   }
 }
